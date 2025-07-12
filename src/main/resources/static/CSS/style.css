@@ -1,0 +1,67 @@
+.custom-body{
+background-color:aliceblue;
+}
+.custom-nav{
+background-color:#FFC0CB!important; /*Gold */
+}
+.textcolor{
+  color: #00008B!important;
+}
+.pinkbg{
+  background-color:#FFC0CB!important;
+  color: rgb(92, 82, 68)!important;
+}
+.dbluebg{
+  background-color: #00008B!important;
+  color: aliceblue!important;
+}
+.textcolor2{
+  color: aliceblue!important;
+}
+.textcolor3{
+  color: rgb(92, 82, 68)!important;
+}
+.textcolor4{
+  color: rgb(242, 5, 5)!important;
+}
+.card:hover{
+  cursor: pointer;
+  background-color: rgb(246, 225, 240);
+}
+.cardimgborder{
+  border: 2px solid  rgb(92, 82, 68)!important;
+  box-shadow: 10px 10px 5px #aaaaaa;
+}
+.form-check {
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 3.5em;
+    margin-bottom: .125rem;
+}
+.btn:hover{
+   /* position: relative;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600; */
+  color: #fff;
+  background-color: #e75480; /* rose pink */
+  border: none;
+  /* 
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none; */
+  transition: all 0.4s ease; 
+ box-shadow: 2px 4px 15px rgba(233, 77, 116, 0.4);
+
+}
+.bg-pink {
+    background-color: pink;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.admin-dropdown-left {
+    transform: translateX(-50px); /* Shift left as needed */
+}
+.error{
+color:red!important;
+}

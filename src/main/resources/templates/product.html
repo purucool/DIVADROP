@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid mt-2">
+
+        <div class="row">
+            <!--category-->
+            <div class="col-md-2">
+                <div class="list-group">
+                    <H3 class="list-group-item list-group-item-action fw-semibold pinkbg"
+                        style="border:2px solid aliceblue;">
+                        Category
+                    </H3>
+                    <!--                    <a th:href="@{/DivaDrop/products}" class="list-group-item list-group-item-action fw-semibold textcolor"-->
+                    <!--                       style="border:2px solid aliceblue;">-->
+                    <!--                        All-->
+                    <!--                    </a>-->
+                    <a th:href="@{/DivaDrop/products?category}"
+                       class="list-group-item list-group-item-action fw-semibold textcolor"
+                       th:classappend="${#strings.equalsIgnoreCase(paramValue,'All')} ? 'dbluebg' : ''">
+                        All
+                    </a>
+                    <th:block th:each="cat:${categories}">
+                        <!--                        <a th:href="@{'/DivaDrop/products?category='+${cat.categoryName}}"  class="list-group-item list-group-item-action fw-semibold textcolor" th:classappend="${paramValue==cat.categoryName}?active:''">[[${cat.categoryName}]]</a>-->
+                        <a th:href="@{'/DivaDrop/products?category=' + ${cat.categoryName}}"
+                           class="list-group-item list-group-item-action fw-semibold textcolor"
+                           th:classappend="${#strings.equalsIgnoreCase(#strings.trim(paramValue), #strings.trim(cat.categoryName))} ? 'dbluebg' : ''">
+                            [[${cat.categoryName}]]
+                        </a>
+                    </th:block>
+
+                </div>
+            </div>
+            <!--  products display-->
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-body custom-nav h-10 py-1">
+                        <p class="fs-3 fw-semibold  text-center textcolor3 my-0">Products</p>
+                        <p class="fw-semibold fs-4 text-center textcolor3 ">&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;</p>
+                        <!-- Session Messages -->
+                        <th:block th:if="${session.successMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold textcolor" th:text="${session.successMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+
+                        <th:block th:if="${session.errorMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold textcolor4" th:text="${session.errorMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor4" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+                        <hr>
+                        <th:block th:if="${productSize>0}">
+
+                            <div class="row row-cols-1 row-cols-md-4 g-3">
+                                <div class="col" th:each="prod : ${products}">
+                                    <div class="card h-100 d-flex flex-column text-center">
+                                        <img class="card-img-top p-2"
+                                             th:src="@{'/img/product_img/'+${prod.ImgName}}"
+                                             style="height: 200px; object-fit: cover;" alt="Product Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title">[[${prod.productName}]]</h5>
+                                            <p class="card-text fw-bold mb-1 textcolor">
+                                                ₹[[${@commonServicesImpl.discountedPrice(prod.price,prod.discount)}]]
+
+                                                </span>
+                                            </p>
+                                            <p class="fs-9">₹
+                                                <del>[[${prod.price}]]</del>
+                                                <span class="m-2">
+                                            <mark class="custom-nav textcolor3">[[${prod.discount}]]%</mark><sub> off </sub></span>
+                                            </p>
+                                            <a th:href="@{'/DivaDrop/products_details/'+${prod.id}}"
+                                               class="btn dbluebg mt-auto">View
+                                                Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                        <th:block th:unless="${productSize>0}" th:class="text-center">
+                            <p class="fw-semibold fs-4 text-center textcolor3 my-3">!! Product Not Found !!</p>
+
+                        </th:block>
+
+                    </div>
+                </div>
+                <!-- Paging-->
+                <div class="row my-2">
+                    <div class="col-md-5">
+                        Total Products : [[${TotalElements}]]
+                    </div>
+                    <th:block th:if="${productSize>0}">
+                        <div class="col-md-7">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{'/DivaDrop/products?pageNo='+${pageNo-1}}"
+                                           aria-label="Previous" th:classappend="${isFirst}?'disabled':''">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+                                    <li th:each="i:${#numbers.sequence(1,TotalPages)}" class="page-item"
+                                        th:classappend="${pageNo+1==i}?'active':''" th:if="${TotalElements > 0}"><a class="page-link"
+                                                                                       th:href="@{'/DivaDrop/products?pageNo='+${i-1}}">[[${i}]]</a>
+                                    </li>
+
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{'/DivaDrop/products?pageNo='+${pageNo+1}}"
+                                           aria-label="Next" th:classappend="${isLast}?'disabled':''">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </th:block>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

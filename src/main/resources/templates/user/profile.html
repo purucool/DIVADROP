@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid p-5">
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <div class="card mt-4">
+                    <div class="card-header custom-nav py-1">
+                        <p class="fw-semibold fs-4 text-center textcolor3 my-0">Profile</p>
+                        <p class="fw-semibold fs-4 text-center textcolor3">&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;</p>
+
+                        <th:block th:if="${session.successMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold textcolor" th:text="${session.successMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+                        <th:block th:if="${session.errorMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold textcolor4" th:text="${session.errorMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor4" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card text-center cardimgborder custom-nav mt-2" style="width: 18rem; margin: auto;">
+                            <img th:src="@{'/img/user_img/'+${profile.imgName}}"
+                                 class="card-img-top mx-auto d-block mt-3 mb-3" alt="Profile Image"
+                                 style="width: 90%; height: auto;">
+                        </div>
+
+                        <form th:action="@{/DivaDrop/user/update_profile}" method="post" enctype="multipart/form-data"
+                              th:object="${profile}">
+                            <input type="hidden" th:field="*{id}" th:value="*{id}" th:name="*{id}">
+
+                            <div class="row">
+                                <div class="form-group col-md-5 m-1">
+                                    <label class="fw-bold textcolor">Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Name"
+                                           th:field="*{userName}">
+                                </div>
+                                <div class="form-group col-md-5 m-1">
+                                    <label class="fw-bold textcolor">Email Id</label>
+                                    <input type="text" class="form-control" placeholder="Enter Email Id"
+                                           th:field="*{emailAddress}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-10 m-1">
+                                    <label class="fw-bold textcolor">Address</label>
+                                    <input type="text" class="form-control" placeholder="Address" th:field="*{address}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-5 m-1">
+                                    <label class="fw-bold textcolor">State</label>
+                                    <input type="text" class="form-control" placeholder="State" th:field="*{state}">
+                                </div>
+                                <div class="form-group col-md-5 m-1">
+                                    <label class="fw-bold textcolor">Mobile No</label>
+                                    <input type="text" class="form-control" placeholder="Mobile No"
+                                           th:field="*{mobileNo}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-5 m-1">
+                                    <label class="fw-bold textcolor">City</label>
+                                    <input type="text" class="form-control" placeholder="City" th:field="*{city}">
+                                </div>
+                                <div class="form-group col-md-5 m-1">
+                                    <label class="fw-bold textcolor">Pincode</label>
+                                    <input type="text" class="form-control" placeholder="Pincode" th:field="*{pincode}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-5 m-1">
+                                    <label class="fw-bold textcolor">Role</label>
+                                    <input type="text" class="form-control" placeholder="Role" th:field="*{role}"
+                                           readonly>
+                                </div>
+                                <div class="form-group col-md-5 m-1">
+                                    <label class="fw-bold textcolor">Profile Status</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" th:field="*{isEnable}" value="true"
+                                               id="Active">
+                                        <label class="form-check-label fw-bold textcolor3" for="Active">Active</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" th:field="*{isEnable}"
+                                               value="false" id="InActive">
+                                        <label class="form-check-label fw-bold textcolor3"
+                                               for="InActive">Inactive</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-10 mt-2">
+                                <label class="fw-bold textcolor">Profile pic</label>
+                                <input type="file" class="form-control" name="file">
+                            </div>
+
+                            <div class="container text-center mt-2">
+                                <button type="submit" class="btn dbluebg">UPDATE</button>
+                            </div>
+                        </form>
+
+                        <div class="card mt-4">
+                            <div class="card-header custom-nav py-1">
+                                <p class="fw-semibold fs-4 text-center textcolor3 my-0">Change Password</p>
+                                <p class="fw-semibold fs-4 text-center textcolor3">&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;</p>
+                            </div>
+                            <div class="card-body">
+                                <form th:action="@{/DivaDrop/user/change_password}"
+                                      method="post">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="w-50">
+                                            <div class="form-group m-3">
+                                                <label class="fw-bold textcolor">Current Password</label>
+                                                <input type="text" class="form-control" name="current_password"
+                                                       placeholder="Current Password"
+                                                       required>
+                                            </div>
+                                            <div class="form-group m-3">
+                                                <label class="fw-bold textcolor">New Password</label>
+                                                <input type="password" class="form-control" name="new_password"
+                                                       placeholder="New Password" required>
+                                            </div>
+                                            <div class="form-group m-3">
+                                                <label class="fw-bold textcolor">Confirm Password</label>
+                                                <input type="password" class="form-control" name="confirm_password"
+                                                       placeholder="Confirm Password" required>
+                                            </div>
+                                            <div class="text-center mt-3">
+                                                <button type="submit" class="btn dbluebg">CHANGE PASSWORD</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="card-footer text-center">
+                        <i class="fa-solid fa-backward-fast textcolor3"></i>
+                        <a th:href="@{/DivaDrop/}" class="textcolor" style="text-decoration:none;"> VIEW PRODUCT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

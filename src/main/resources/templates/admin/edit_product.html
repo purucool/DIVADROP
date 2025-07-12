@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Product</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid p-5">
+        <div class="row">
+            <div class="col-md-12 p-5">
+                <div class="card mt-4">
+                    <div class="card-header custom-nav py-1">
+                        <p class="fw-semibold fs-4 text-center textcolor3 my-0">Edit Product</p>
+                        <p class="fw-semibold fs-4 text-center textcolor3 ">&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;</p>
+                        <th:block th:if="${session.successMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold text-center textcolor my-0"
+                                      th:text="${session.successMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+                        <th:block th:if="${session.errorMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold text-center textcolor4 my-0"
+                                      th:text="${session.errorMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor4" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/DivaDrop/admin/update_product}" method="post"
+                              enctype="multipart/form-data" th:object="${product}">
+                            <input type="hidden" th:field="*{id}" th:value="*{id}">
+                            <div class="row">
+                                <div class="form-group col-md-5 m-1">
+                                    <label for="Title" class="fw-bold textcolor">Title</label>
+                                    <input type="text" class="form-control" id="Title"
+                                           aria-describedby="emailHelp" placeholder="Enter Product's Title "
+                                           th:field="*{productName}">
+                                </div>
+                                <div class="form-group col-md-5 m-1">
+
+                                    <label class="fw-bold textcolor m-2">Product Status</label>
+
+                                    <div class="form-check col-md-4 ml-2">
+                                        <input class="form-check-input" type="radio" th:field="*{isActive}" value="true"
+                                               id="Active"/>
+                                        <label class="form-check-label fw-bold textcolor3" for="Active">Active</label>
+                                    </div>
+
+                                    <div class="form-check col-md-4">
+                                        <input class="form-check-input" type="radio" th:field="*{isActive}" value="false"
+                                               id="InActive"/>
+                                        <label class="form-check-label fw-bold textcolor3" for="InActive">Inactive</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-5 m-1">
+                                    <label for="price" class="fw-bold textcolor">Price</label>
+                                    <input type="number" class="form-control" id="price"
+                                           aria-describedby="emailHelp" placeholder="Rs Price " th:field="*{price}">
+                                </div>
+                                <div class="form-group col-md-5 m-1">
+                                    <label for="discount" class="fw-bold textcolor">Discount</label>
+                                    <input type="number" class="form-control" id="discount"
+                                           placeholder="Discount %" th:field="*{discount}" min="0" max="90">
+                                </div>
+                            </div>
+                            <div class="form-group m-1">
+                                <label for="Description" class="fw-bold textcolor">Description</label>
+                                <textarea class="form-control" id="Description" rows="3"
+                                          placeholder="Description ..." th:field="*{description}"></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-5 m-1">
+                                    <label for="Category" class="fw-bold textcolor">Category</label>
+                                    <select class="form-control" id="Category" th:field="*{category}">
+<!--                                        <option th:value="*{category}" th:text="*{category}" selected></option>-->
+                                        <option th:each="cat : ${categories}"
+                                                th:value="${cat.categoryName}"
+                                                th:text="${cat.categoryName}">
+                                        </option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-md-5 m-1">
+                                    <label for="quantity" class="fw-bold textcolor">Quantity</label>
+                                    <input type="number" class="form-control" id="quantity"
+                                           placeholder="Quantity" th:field="*{quantity}">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label for="pic" class="fw-bold textcolor">Product pic</label>
+                                <input type="file" class="form-control " id="pic" name="file">
+                            </div>
+
+
+                            <div class="card text-center cardimgborder custom-nav mt-2" style="width: 18rem; margin: auto;">
+                                <!-- DISPALY Image -->
+                                <img th:src="@{'/img/product_img/'+*{imgName}}"
+                                     class="card-img-top mx-auto d-block mt-3 mb-3" alt="Product Image"
+                                     style="width: 90%; height: auto;">
+                            </div>
+
+                            <div class="container text-center mt-2">
+                                <button type="submit" class="btn dbluebg">UPDATE</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <i class="fa-solid fa-backward-fast textcolor3"></i><a th:href="@{/DivaDrop/admin/view_product}"
+                                                                    style="text-decoration:none;" class="textcolor"> VIEW PRODUCT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

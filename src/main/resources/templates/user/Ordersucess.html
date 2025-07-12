@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+</head>
+<body class="custom-body">
+<section>
+    <div class="container mt-5 p-5">
+            <div class="row">
+                <div class="col-md-7 p-5 offset-md-3">
+                    <i class="fa-solid fa-thumbs-up fa-5x textcolor"></i>
+                    <h5 class="custom-nav" style="
+  padding: 7px 12px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #b76e79; /* Rose Gold */
+  background-color: #fff0f5; /* Light blush background */
+  border-left: 4px solid #ff66b2; /* Blush pink accent line */
+  font-style: italic;
+  letter-spacing: 0.5px;
+  border-radius: 6px;
+  display: inline-block;
+">
+                        !!&#x2655; Order Again &#x2655;!!
+                    </h5>
+                    <H3 class="textcolor">!! Order Placed Successfully !!</H3>
+
+                    <H5 class="textcolor3">!! Order Will get Delivered in next 7 Days !!</H5>
+                    <H5 class="textcolor">!! Thank u For Choosing DivaDrop !!</H5>
+                    <h5 class="custom-nav" style="
+  padding: 7px 12px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #b76e79; /* Rose Gold */
+  background-color: #fff0f5; /* Light blush background */
+  border-left: 4px solid #ff66b2; /* Blush pink accent line */
+  font-style: italic;
+  letter-spacing: 0.5px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-left:20px;
+">
+                        !!&#x2655; Drop into Style, Rise in Confidence &#x2655;!!
+                    </h5>
+                    <div class="ml-5">
+                    <a class="btn dbluebg ml-5" th:href="@{/DivaDrop/}">Home</a>
+                    <a class="btn dbluebg ml-5" th:href="@{/DivaDrop/user/user_orders}">Your Order</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+</section>
+</body>
+</html>

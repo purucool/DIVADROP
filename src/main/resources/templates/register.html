@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body class="custom-body">
+<section>
+    <div class="container p-5">
+        <div class="row">
+            <div class="col-md-6 p-5">
+                <div class="card mt-4">
+                    <div class="card-header custom-nav py-1">
+                        <p class="fw-semibold fs-4 text-center textcolor3 my-0">Register</p>
+                        <p class="fw-semibold fs-4 text-center textcolor3 ">&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;</p>
+                        <th:block th:if="${session.successMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold text-center textcolor my-0"
+                                      th:text="${session.successMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+                        <th:block th:if="${session.errorMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold text-center textcolor4 my-0"
+                                      th:text="${session.errorMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor4" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/DivaDrop/user/save_user}" th:method="POST" th:object="${user}" enctype="multipart/form-data" id="userRegister" novalidate>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="fullname" class="fw-bold textcolor">Full Name</label>
+                                    <input type="text" class="form-control" id="fullname" th:field="*{userName}"
+                                           aria-describedby="emailHelp" placeholder="Enter Full Name" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="mobilenumber" class="fw-bold textcolor">Mobile Number</label>
+                                    <input type="tel" class="form-control" id="mobilenumber" th:field="*{mobileNo}"
+                                           placeholder="Phone Number" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="fw-bold textcolor">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" th:field="*{emailAddress}"
+                                       aria-describedby="emailHelp" placeholder="Enter email" required>
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                    anyone else.</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="Password1" class="fw-bold textcolor">Password</label>
+                                    <input type="password" class="form-control" id="Password1" th:field="*{password}"
+                                           placeholder="Password" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="Password2" class="fw-bold textcolor">Confirm Password</label>
+                                    <input type="password" class="form-control" id="Password2" th:field="*{confirmPassword}"
+                                           placeholder="Re-enter Password" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="Address" class="fw-bold textcolor">Address</label>
+                                    <input type="text" class="form-control" id="Address" th:field="*{address}"
+                                           aria-describedby="emailHelp" placeholder="Enter Address" required>
+
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="pincode" class="fw-bold textcolor">Pincode</label>
+                                    <input type="number" class="form-control" id="pincode" th:field="*{pincode}"
+                                           placeholder="Enter Pincode" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="city" class="fw-bold textcolor">City</label>
+                                    <input type="text" class="form-control" id="city" th:field="*{city}"
+                                           aria-describedby="emailHelp" placeholder="Enter City" required>
+
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="state" class="fw-bold textcolor">State</label>
+                                    <input type="text" class="form-control" id="state" th:field="*{state}"
+                                           placeholder="Enter State" required>
+                                </div>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="pic" class="fw-bold textcolor">Profile pic</label>
+                                <input type="file" class="form-control " id="pic" name="file">
+                            </div>
+                            <div class="container text-center mt-2">
+                                <button type="submit" class="btn dbluebg">Register</button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        Already have an account?<a th:href="@{/DivaDrop/signin}"
+                                                 style="text-decoration:none;">Login</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 p-5 mt-4">
+                <div class="contianer text-center">
+                    <img th:src="@{/img/login.png}" style="mix-blend-mode: multiply;" width="100%" height="400px"
+                         alt="Shopping Image">
+                    <h5 class="custom-nav" style="
+  padding: 7px 12px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #b76e79; /* Rose Gold */
+  background-color: #fff0f5; /* Light blush background */
+  border-left: 4px solid #ff66b2; /* Blush pink accent line */
+  font-style: italic;
+  letter-spacing: 0.5px;
+  border-radius: 6px;
+  display: inline-block;
+">
+                        !!&#x2655; Drop into Style, Rise in Confidence &#x2655;!!
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

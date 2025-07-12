@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>All Orders</title>
+</head>
+<body class="custom-body">
+<section>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mt-4">
+                    <div class="card-header custom-nav py-1">
+                        <p class="fw-semibold fs-4 text-center textcolor3 my-0">DivaDrop Orders</p>
+                        <p class="fw-semibold fs-4 text-center textcolor3">&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;</p>
+
+                        <!-- Session Messages -->
+                        <th:block th:if="${session.successMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold textcolor" th:text="${session.successMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+
+                        <th:block th:if="${session.errorMsg}">
+                            <p class="text-center">
+                                <span class="fw-semibold textcolor4" th:text="${session.errorMsg}"></span>
+                                <i class="fa-solid fa-xmark textcolor4" onclick="window.location.reload();"></i>
+                                <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                            </p>
+                        </th:block>
+
+                        <!-- Search Form -->
+                        <form class="d-flex ms-auto" action="/DivaDrop/admin/search_order" method="get">
+                            <input class="form-control me-1 w-25" type="search" placeholder="Order Id" name="ch"
+                                   aria-label="Search">
+                            <button class="btn btn-outline-success me-3 dbluebg" type="submit">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+
+
+                    </div>
+
+                    <!-- Order Table -->
+                    <div class="card-body">
+                        <table class="table table-striped table-dark align-middle text-center">
+                            <thead>
+                            <tr>
+                                <th class="textcolor2">#</th>
+                                <th class="textcolor2">Order Id</th>
+                                <th class="textcolor2">Delivery Details</th>
+                                <th class="textcolor2">Order Date</th>
+                                <th class="textcolor2">Product Details</th>
+                                <th class="textcolor2">Price</th>
+                                <th class="textcolor2">Quantity</th>
+                                <th class="textcolor2">Total Amount</th>
+                                <th class="textcolor2">Status</th>
+                                <th class="textcolor2">Action</th>
+                            </tr>
+                            </thead>
+
+                                <tbody>
+                                <tr th:if="${#lists.isEmpty(allorders)}">
+                                    <td colspan="10" class="text-center">No Order found.</td>
+                                </tr>
+                                <tr th:each="order, c : ${allorders}">
+                                    <th class="textcolor2">[[${c.count}]]</th>
+                                    <td class="textcolor2 fw-semibold fs-6">[[${order.orderId}]]</td>
+
+                                    <!-- Delivery Details -->
+                                    <td class="text-start textcolor2 fw-semibold fs-6">
+                                        <div>
+                                            <mark class="bg-pink">Name:</mark>
+                                            [[${order.orderAddress.firstName}]] [[${order.orderAddress.lastName}]]
+                                        </div>
+                                        <div>
+                                            <mark class="bg-pink">Email:</mark>
+                                            [[${order.orderAddress.email}]]
+                                        </div>
+                                        <div>
+                                            <mark class="bg-pink">Mobile:</mark>
+                                            [[${order.orderAddress.moblieNo}]]
+                                        </div>
+                                        <div>
+                                            <mark class="bg-pink">Address:</mark>
+                                            [[${order.orderAddress.address}]]
+                                        </div>
+                                        <div>
+                                            <mark class="bg-pink">City:</mark>
+                                            [[${order.orderAddress.city}]]
+                                        </div>
+                                        <div>
+                                            <mark class="bg-pink">State:</mark>
+                                            [[${order.orderAddress.state}]], [[${order.orderAddress.pincode}]]
+                                        </div>
+                                    </td>
+
+                                    <td class="textcolor2 fw-semibold fs-6">[[${order.orderDate}]]</td>
+                                    <td class="textcolor2 fw-semibold fs-6">[[${order.product.productName}]]</td>
+                                    <td class="textcolor2 fw-semibold fs-6">[[${order.price}]]</td>
+                                    <td class="textcolor2 fw-semibold fs-6">[[${order.quantity}]]</td>
+                                    <td class="textcolor2 fw-semibold fs-6">
+                                        <mark class="bg-pink">[[${#numbers.formatDecimal(order.quantity * order.price,
+                                            1,
+                                            2)}]]
+                                        </mark>
+                                    </td>
+                                    <td class="textcolor4 fw-semibold fs-6">[[${order.status}]]</td>
+
+                                    <!-- Update Status -->
+                                    <td>
+                                        <form th:action="@{/DivaDrop/admin/update-status}" method="POST">
+                                            <div class="d-flex align-items-center">
+                                                <select name="st" class="form-select me-2" style="width: 200px;">
+                                                    <option disabled selected>--SELECT--</option>
+                                                    <option value="1">In Progress</option>
+                                                    <option value="2">Order Received</option>
+                                                    <option value="3">Product Packed</option>
+                                                    <option value="4">Out for Delivery</option>
+                                                    <option value="5">Order Delivered</option>
+                                                    <option value="6">Order Canceled</option>
+                                                </select>
+                                                <input type="hidden" name="id" th:value="${order.id}">
+
+                                                <button type="submit" class="btn btn-warning btn-sm"
+                                                        th:disabled="${order.status == 'Order Delivered' or order.status == 'Order Canceled'}">
+                                                    <i class="fa-solid fa-pen-to-square m-2"></i>Edit
+                                                </button>
+
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                        </table>
+                    </div>
+                    <!--Pagging-->
+                    <div class="row my-2">
+                        <div class="col-md-5">
+                            Total Orders : [[${TotalElements}]]
+                        </div>
+
+                            <div class="col-md-7">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" th:href="@{'/DivaDrop/admin/orders?pageNo='+${pageNo-1}}"
+                                               aria-label="Previous" th:classappend="${isFirst}?'disabled':''" >
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+
+                                        <li th:each="i:${#numbers.sequence(1,TotalPages)}" class="page-item"
+                                            th:classappend="${pageNo+1==i}?'active':''" th:if="${TotalElements > 0}"><a class="page-link"
+                                                                                           th:href="@{'/DivaDrop/admin/orders?pageNo='+${i-1}}">[[${i}]]</a>
+                                        </li>
+
+                                        <li class="page-item">
+                                            <a class="page-link" th:href="@{'/DivaDrop/admin/orders?pageNo='+${pageNo+1}}"
+                                               aria-label="Next" th:classappend="${isLast}?'disabled':''">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                    </div>
+                    <!-- card-body -->
+
+                    <div class="card-footer text-center">
+                        <i class="fa-solid fa-backward-fast"></i><a th:href="@{/DivaDrop/admin/dashboard}"
+                                                                    style="text-decoration:none;"> ADMIN DASHBOARD</a>
+                    </div>
+                </div> <!-- card -->
+            </div> <!-- col -->
+        </div> <!-- row -->
+    </div> <!-- container -->
+</section>
+</body>
+</html>

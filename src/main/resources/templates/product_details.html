@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+</head>
+
+<body>
+<section>
+    <div class="container mt-3">
+        <div class="card" style="box-shadow: 10px 10px 5px #aaaaaa;">
+            <div class="card-body custom-nav py-2 cardimgborder">
+
+                <p class="fs-3 fw-semibold text-center textcolor3 my-0">Product Details</p>
+                <p class="fw-semibold fs-4 text-center textcolor3">
+                    &#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;&#x2655;</p>
+                <th:block th:if="${session.successMsg}">
+                    <p class="text-center">
+                                <span class="fw-semibold text-center textcolor my-0"
+                                      th:text="${session.successMsg}"></span>
+                        <i class="fa-solid fa-xmark textcolor" onclick="window.location.reload();"></i>
+                        <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                    </p>
+                </th:block>
+                <th:block th:if="${session.errorMsg}">
+                    <p class="text-center">
+                                <span class="fw-semibold text-center textcolor4 my-0"
+                                      th:text="${session.errorMsg}"></span>
+                        <i class="fa-solid fa-xmark textcolor4" onclick="window.location.reload();"></i>
+                        <th:block th:text="${@commonServicesImpl.removeSessionMssg()}"></th:block>
+                    </p>
+                </th:block>
+                </p>
+                <hr>
+                <div class="row p-4">
+                    <!-- Image Column -->
+                    <div class="col-md-5 d-flex justify-content-center align-items-center">
+                        <div class="card" style="max-width: 300px; width: 100%;">
+                            <img class="card-img-top p-2"
+                                 th:src="@{'/img/product_img/'+${product.imgName}}"
+                                 alt="Product Image"
+                                 style="height: 300px; object-fit: cover;">
+                        </div>
+                    </div>
+
+                    <!-- Details Column -->
+                    <div class="col-md-6 py-2">
+                        <div class="container-fluid">
+                            <div class="card dbluebg py-4 px-3 cardimgborder">
+                                <h3 class="text-start">[[${product.productName}]]</h3>
+
+                                <p class="fw-bold mb-0">Description:</p>
+                                <p class="text-start">[[${product.description}]]</p>
+
+                                <p class="text-start">
+                                    <span class="fw-bold"><u>Product Details:</u></span><br>
+                                </p>
+                                <p class="fw-bold mt-0">Status:
+                                    <th:block th:if="${product.isActive==true}"><span
+                                            class="badge bg-success">Available</span></th:block>
+                                    <th:block th:unless="${product.isActive==true or product.quantity>0}"><span
+                                            class="badge bg-warning">Out of stock</span><br></th:block>
+                                </p>
+                                <p class="fw-semibold">Category: [[${product.category}]]<br></p>
+                                <p class="fw-semibold">Policy: 7 Days Replacement & Return</p>
+
+                                <p class="fs-5 fw-bold text-start mt-0">
+                                    Price:
+                                    [[${@commonServicesImpl.discountedPrice(product.price, product.discount)}]]
+                                    <span class="fs-6 text-decoration-line-through text-warning">
+                                        ₹[[${product.price}]]
+                                    </span>
+                                    <span class="fs-6 text-danger">[[${product.discount}]]% off</span>
+                                </p>
+
+                                <div class="row text-center">
+                                    <div class="col-md-4 p-2 text-danger">
+                                        <i class="fas fa-money-bill-wave fa-2x"></i>
+                                        <p>Cash On Delivery</p>
+                                    </div>
+                                    <div class="col-md-4 p-2">
+                                        <i class="fas fa-undo-alt fa-2x"></i>
+                                        <p>Return Available</p>
+                                    </div>
+                                    <div class="col-md-4 p-2 text-warning">
+                                        <i class="fas fa-truck-moving fa-2x"></i>
+                                        <p>Free Shipping</p>
+                                    </div>
+                                </div>
+
+                                <div class="container text-center">
+                                    <th:block th:if="${product.isActive==true and product.quantity>0 }">
+                                        <th:block th:if="${loginuser==null}">
+                                            <a th:href="@{/DivaDrop/signin}" class="btn pinkbg w-50 mb-2 fw-semibold">Add
+                                                Cart</a>
+                                        </th:block>
+                                        <th:block th:unless="${loginuser==null}">
+                                            <a th:href="@{'/DivaDrop/user/addcart?pid='+${product.id}+'&uid='+${loginuser.id}}"
+                                               class="btn pinkbg w-50 mb-2 fw-semibold">Add Cart</a>
+                                        </th:block>
+
+                                    </th:block>
+                                    <th:block th:if="${product.isActive==false or product.quantity<=0}">
+                                        <a href="#" class="btn btn-warning w-50 mb-2 fw-semibold">Out of Stock</a>
+                                    </th:block>
+                                    <!-- Optional: <a href="#" class="btn pinkbg w-50 fw-semibold">Buy</a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Details -->
+                </div>
+
+                <div class="card-footer text-center">
+                    <i class="fa-solid fa-backward-fast textcolor3"></i><a th:href="@{/DivaDrop/products}"
+                                                                           style="text-decoration:none;"
+                                                                           class="textcolor"> PRODUCTS</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DivaDrop</title>
+</head>
+
+<body>
+<section>
+    <!--   slider starts-->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                    aria-label="Slide 5"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
+                    aria-label="Slide 6"></button>
+        </div>
+
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img th:src="@{/img/cloths.jpg}" class="d-block w-100 " style="height: 250px; object-fit: cover;"
+                     alt="Clothing">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="textcolor2">Clothing</h5>
+                    <p class="textcolor2">Dress Bold, Live Beautiful</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img th:src="@{/img/jwellery.jpg}" class="d-block w-100" style="height: 250px; object-fit: cover;"
+                     alt="Jewellery">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="textcolor2">Jewellery</h5>
+                    <p class="textcolor2">Elegant and Timeless</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img th:src="@{/img/perfumes.jpg}" class="d-block w-100" style="height: 250px; object-fit: cover;"
+                     alt="Perfumes">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 style="color:black;">Perfumes</h5>
+                    <p style="color:black;">Fragrance That Defines You</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img th:src="@{/img/shoes.jpg}" class="d-block w-100 " style="height: 250px; object-fit: cover;"
+                     alt="Shoes">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="textcolor2">Shoes</h5>
+                    <p class="textcolor2">Style That Carries You</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img th:src="@{/img/skincare.jpg}" class="d-block w-100" style="height: 250px; object-fit: cover;"
+                     alt="Skincare">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 style="color:black;">Skincare</h5>
+                    <p style="color:black;">Glow with Confidence</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img th:src="@{/img/ladiesaccessories.jpg}" class="d-block w-100"
+                     style="height: 250px; object-fit: cover;" alt="Accessories">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="textcolor2">Accessories</h5>
+                    <p class="textcolor2">Perfect Finishing Touch</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <!--    slider end-->
+    <!--    Categories start-->
+    <div class="container">
+        <div class="row mb-3">
+            <h5 class="text-center textcolor mt-3 mb-3">Category</h5>
+            <div class="col-md-2 my-1" th:each="cat:${categories}">
+                <div class="card rounded-square" style="border:2px solid #FFC0CB;">
+                    <div class="card-body text-center">
+                        <a style="text-decoration:none;" th:href="@{'/DivaDrop/products?category=' + ${cat.categoryName}}"><img th:src="@{'/img/category_img/'+${cat.imgName}}" width="75%" height="100px"
+                             style="border-radius:5px;" alt="Category1">
+                        <h6  class="textcolor mt-2">[[${cat.categoryName}]]</h6></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--  row 2-->
+        <div class="row">
+            <h5 class="text-center textcolor mt-5 mb-3">Latest Products</h5>
+            <div class="col-md-2" th:each="prod:${products}">
+                <div class="card rounded-square" style="border:2px solid #FFC0CB;">
+                    <div class="card-body text-center">
+                        <a style="text-decoration:none;"  th:href="@{'/DivaDrop/products_details/'+${prod.id}}" > <img th:src="@{'/img/product_img/'+${prod.ImgName}}" width="75%" height="100px" alt="Category7"
+                             style="border-radius:5px;">
+                        <h6 class="textcolor mt-2">[[${prod.productName}]]</h6></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--    Categories ends-->
+   </section>
+</body>
+</html>
